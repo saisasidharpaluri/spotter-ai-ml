@@ -1,0 +1,50 @@
+SPOTTER FREIGHT RATE ASSESSMENT - LOOM SCRIPT
+Target length: about 2 minutes 30 seconds
+
+Before recording
+- Open the GitHub repository in a browser.
+- Have the PDF report, train_model.py, validation_predictions.csv, and December chart ready in separate tabs.
+- Follow the SHOW cues, then read the SAY section in a natural voice.
+
+0:00-0:25 | Problem and data
+
+SHOW
+Open the GitHub repository. Briefly show the data folder and the train_test.csv and validation.csv files.
+
+SAY
+"This project predicts freight rates for 12,000 loads. The labeled data has 48,000 loads from January through October 2025, while the prediction data covers November and December. Because the prediction period comes after the training period, I used time-based validation instead of a random split."
+
+0:25-0:55 | Findings and data quality
+
+SHOW
+Open the data checks section of reports/freight_rate_assessment.pdf. Keep the data-quality paragraph visible.
+
+SAY
+"Distance had the strongest simple relationship with the posted rate. I found 300 missing weights, 292 negative weight values, and 374 missing market-index values. I kept the rows, treated negative weights as missing, and used CatBoost's handling for missing numeric values. I also kept the high-rate values. Eight location names appear only in validation, so the model uses coordinates and route geometry to help with unfamiliar locations."
+
+0:55-1:25 | Model and validation
+
+SHOW
+Scroll to the validation results table in reports/freight_rate_assessment.pdf.
+
+SAY
+"I compared an equipment-based median rate-per-mile baseline with CatBoost models trained using MAE and RMSE losses. I trained on January through August and validated on September, then trained through September and validated on October. CatBoost with MAE loss was selected based on its combined relative MAE and RMSE across both holdouts. Its MAE was about 113 dollars in September and 110 dollars in October, lower than the baseline in both months."
+
+1:25-2:05 | Code and predictions
+
+SHOW
+Open train_model.py. Briefly point to engineer_features, validate_models, choose_loss, and the final model fit. Then show validation_predictions.csv with its header and a few rows.
+
+SAY
+"This script builds the features, compares models on the time-based holdouts, selects the loss, and trains the final model on all labeled rows. The load ID is used to line predictions up with the template; it is not a model feature. The final file contains the required load_id and predicted_rate columns."
+
+2:05-2:30 | December chart and close
+
+SHOW
+Open scorer_results/candidate_december.png, or show the chart on page two of the PDF report.
+
+SAY
+"This is the fixed December scenario. The route, distance, equipment, and weight stay constant while the date changes. The provided scorer accepted all 12,000 validation predictions and all 31 daily December predictions. Spotter will calculate the final evaluation score after submission."
+
+Recording tip
+Keep each section short, and move to the next screen while speaking. If you run over time, shorten the code walkthrough rather than skipping the validation split or data-quality findings.
